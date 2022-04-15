@@ -1,0 +1,137 @@
+main：
+
+la將"Input a number:\n"讀入a0
+li將4讀入a7
+ecall(印出字串)
+
+li將5讀入a7
+ecall(輸入數字存到a0)
+
+mv將a0的數字存到t1
+
+jal呼叫function
+return回來後j跳到end
+
+function：
+
+addi將sp下移 2 bytes
+將ra(return address)存入8(sp)
+將t1(當前x的值)存入0(sp)
+
+addi將t4設為20
+addi將t5設為10
+addi將t6設為1
+
+若t1>t4(x>20)，branch到GT20
+若t1>t5(10<x≤20)，branch到GT10
+若t1>t6(1<x≤10)，branch到GT1
+若t1==t6(x==1)，branch到EQ1
+若t1==zero(x==0)，branch到EQ0
+若t1<zero(x<0)，branch到LT0
+
+GT20：
+
+slli將t1往左移 1 bit放到t2
+addi將sp下移 1 byte
+sw將t2存入0(sp)
+
+addi將t3設為5
+div將t1除以t3放到t1
+jal呼叫function
+回傳後addi將t1放到t3
+addi將sp下移 1 byte
+sw將t3存入0(sp)
+
+lw存回t2原來的值
+lw存回t3原來的值
+addi將sp上移 2 bytes
+addi將t2加t3放到t1
+
+lw將return address存回t0
+addi將sp上移 2 bytes
+jalr回傳
+
+GT10：
+
+addi將t1減2
+jal呼叫function
+回傳後addi將t1放到t2
+addi將sp下移 1 byte
+sw將t2存入0(sp)
+
+lw存回t1原來的值
+addi將t1減3
+jal呼叫function
+回傳後addi將t1放到t3
+addi將sp下移 1 byte
+sw將t3存入0(sp)
+
+lw存回t2原來的值
+lw存回t3原來的值
+addi將sp上移 2 bytes
+addi將t2加t3放到t1
+
+lw將return address存回t0
+addi將sp上移 2 bytes
+jalr回傳
+
+GT1：
+
+addi將t1減1
+jal呼叫function
+回傳後addi將t1放到t2
+addi將sp下移 1 byte
+sw將t2存入0(sp)
+
+lw存回t1原來的值
+addi將t1減2
+jal呼叫function
+回傳後addi將t1放到t3
+addi將sp下移 1 byte
+sw將t3存入0(sp)
+
+lw存回t2原來的值
+lw存回t3原來的值
+addi將sp上移 2 bytes
+addi將t2加t3放到t1
+
+lw將return address存回t0
+addi將sp上移 2 bytes
+jalr回傳
+
+EQ1：
+
+addi將t1設為5
+
+lw將return address存回t0
+addi將sp上移 2 bytes
+jalr回傳
+
+EQ0：
+
+addi將t1設為1
+
+lw將return address存回t0
+addi將sp上移 2 bytes
+jalr回傳
+
+LT0：
+
+addi將t1設為-1
+
+lw將return address存回t0
+addi將sp上移 2 bytes
+jalr回傳
+
+end：
+
+la將"The damage:\n"讀入a0
+li將4讀入a7
+ecall(印出字串)
+
+mv將t1的數字存到a0
+li將1讀入a7
+ecall(印出a0的數字)
+
+li將10讀入a7
+ecall(結束程式)
